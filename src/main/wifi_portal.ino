@@ -9,12 +9,7 @@
 
 #include <ArduinoJson.h>          //https://github.com/bblanchon/ArduinoJson
 
-//define your default values here, if there are different values in config.json, they are overwritten.
-char host_name[20];
-char passcode[20];
-char port_str[6] = "8080";
-char user_id[60];
-char fingerprint[60] = "8D 83 C3 5F 0A 09 84 AE B4 64 63 23 8F 05 9E 4D 5E 08 60 06";
+
 
 //flag for saving data
 bool shouldSaveConfig = false;
@@ -26,13 +21,9 @@ void saveConfigCallback () {
 }
 
 
-void wifi_setup() {
-  // put your setup code here, to run once:
-  Serial.begin(115200);
-  Serial.println();
-
+bool wifi_setup(bool resetConfig) {
   //clean FS, for testing
-  //SPIFFS.format();
+  SPIFFS.format();
 
   //read configuration from FS json
   Serial.println("mounting FS...");
@@ -99,6 +90,8 @@ void wifi_setup() {
 
   //reset settings - for testing
   //wifiManager.resetSettings();
+  if (resetConfig)
+    wifiManager.resetSettings();
 
   //set minimu quality of signal so it ignores AP's under that quality
   //defaults to 8%
