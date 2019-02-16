@@ -26,6 +26,9 @@
 *.a
 *.lib
 
+# IDE Folders
+.vs
+
 # Executables
 *.exe
 *.out
